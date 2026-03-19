@@ -1,0 +1,33 @@
+---
+description: Rules for the Nike Glass Aesthetic UI system - Glassmorphism components, dark mode, and visual identity.
+globs: src/components/**,src/app/**/page.tsx,src/app/**/layout.tsx,src/app/globals.css
+alwaysApply: false
+---
+
+# UI and Glassmorphism Rules
+
+## Positive Directives
+
+- Default to dark mode (deep black background: #0a0a0a)
+- Use the `glass` CSS class for all card-like containers (provides backdrop-blur and translucent borders)
+- Use the `glass-hover` class for interactive glass elements
+- Use the `GlassCard` and `GlassButton` components from `@/components/ui/` as building blocks
+- Typography must be bold, high-contrast, and use tight tracking (`tracking-tighter` for headlines)
+- Headlines should be UPPERCASE for the Nike-inspired aesthetic
+- Use `text-muted` (zinc-400) for secondary text, `text-foreground` (white) for primary
+- Use `rounded-2xl` for card border radius consistently
+- Use subtle transitions (`transition-all duration-300 ease`) on all interactive elements
+
+## Negative Rules
+
+- NEVER use cluttered layouts with excessive borders, shadows, or gradients
+- NEVER use a light/white background as the default theme
+- NEVER use standard HTML buttons without the GlassButton component styling
+- NEVER mix serif and sans-serif fonts
+- NEVER use colors outside the defined theme palette without explicit approval
+
+## Verification Steps
+
+- Visually confirm all cards use the frosted-glass effect (backdrop-blur)
+- Check that interactive elements have smooth hover transitions
+- Verify dark mode renders correctly with high contrast between text and background

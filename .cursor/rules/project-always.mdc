@@ -1,0 +1,35 @@
+---
+description: Global project rules that apply to every file in the codebase. Enforces formatting, documentation, and coding standards.
+globs:
+alwaysApply: true
+---
+
+# Global Project Rules
+
+## Positive Directives
+
+- Use TypeScript strict mode for all files
+- Use the App Router pattern (not Pages Router) for all routes
+- Prefer Server Components by default; only add "use client" when interactivity is required
+- Use Server Actions (in src/actions/) for all data mutations
+- Store all monetary values in cents (integers) to avoid floating-point errors
+- Use the `cn()` utility from `@/lib/utils` for conditional class merging
+- Keep components small and composable; extract reusable logic into hooks or utilities
+- Use named exports for components; default exports only for route pages
+- All user-facing text must use sentence case unless it is a brand name or headline (headlines use UPPERCASE)
+
+## Negative Rules
+
+- NEVER use asterisks in any generated documentation, plans, code comments, or UI text - use dashes for lists
+- NEVER use the Pages Router (`pages/` directory)
+- NEVER import from `@prisma/client` directly in client components - always go through Server Actions or API routes
+- NEVER store secrets or API keys in client-accessible code
+- NEVER use `any` type - use `unknown` and narrow with type guards
+- NEVER use inline styles; use Tailwind classes or the Glassmorphism utility classes from globals.css
+- NEVER commit `.env` files
+
+## Verification Steps
+
+- Run `npx tsc --noEmit` to verify type safety before marking a task complete
+- Confirm no `"use client"` directive exists in files that do not require browser APIs
+- Verify all new routes are accessible and return proper HTTP status codes

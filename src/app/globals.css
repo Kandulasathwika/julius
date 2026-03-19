@@ -1,26 +1,301 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #18181b;
+  --color-muted: #71717a;
+  --color-dim: #a1a1aa;
+  --color-border: #f4f4f5;
+  --color-border-mid: #e4e4e7;
+  --color-surface: #fafafa;
+  --color-danger: #dc2626;
+  --color-success: #16a34a;
+
+  --color-js-bg: #09090b;
+  --color-js-surface: #131316;
+  --color-js-elevated: #1c1c21;
+  --color-js-border: #2a2a30;
+  --color-js-accent: #f59e0b;
+  --color-js-accent-hover: #fbbf24;
+  --color-js-text: #fafaf9;
+  --color-js-text-secondary: #a8a29e;
+  --color-js-text-muted: #57534e;
+
+  --color-js-available: #34d399;
+  --color-js-limited: #fbbf24;
+  --color-js-substitute: #fb923c;
+  --color-js-cutoff: #fb7185;
+  --color-js-oos: #f87171;
+
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", ui-monospace, monospace;
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+::selection {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fafaf9;
+}
+
+/* ---- Scroll-triggered reveal ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.8s var(--ease-spring),
+    transform 0.8s var(--ease-spring);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.7s var(--ease-spring),
+    transform 0.7s var(--ease-spring);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition:
+    opacity 0.8s var(--ease-spring),
+    transform 0.8s var(--ease-spring);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered delays for children */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* ---- Apple-style smooth transitions ---- */
+.hover-lift {
+  transition: transform 0.5s var(--ease-spring), box-shadow 0.5s var(--ease-spring);
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+}
+
+.hover-scale {
+  transition: transform 0.5s var(--ease-spring);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-glow {
+  transition: box-shadow 0.4s var(--ease-spring);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.15), 0 8px 30px -8px rgba(249, 115, 22, 0.12);
+}
+
+/* ---- Animated toggle ---- */
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.4s var(--ease-spring);
+  position: relative;
+}
+
+.toggle-track[data-state="off"] {
+  background-color: #e4e4e7;
+}
+
+.toggle-track[data-state="on"] {
+  background-color: #16a34a;
+}
+
+.toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s var(--ease-spring);
+  will-change: transform;
+}
+
+.toggle-track[data-state="on"] .toggle-thumb {
+  transform: translateX(20px);
+}
+
+/* ---- Button press effect ---- */
+.press-scale {
+  transition: transform 0.15s var(--ease-spring);
+}
+
+.press-scale:active {
+  transform: scale(0.96);
+}
+
+/* ---- Smooth expand/collapse ---- */
+.smooth-expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease-spring);
+}
+
+.smooth-expand.expanded {
+  grid-template-rows: 1fr;
+}
+
+.smooth-expand > div {
+  overflow: hidden;
+}
+
+/* ---- Hero gradient mouse-follow ---- */
+.hero-gradient {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-gradient .hero-spotlight {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: left 0.3s ease-out, top 0.3s ease-out;
+  will-change: left, top;
+}
+
+/* ---- Progress bar animation ---- */
+.progress-fill {
+  transition: width 1s var(--ease-out-expo);
+}
+
+/* ---- Smooth image zoom ---- */
+.img-zoom {
+  overflow: hidden;
+}
+
+.img-zoom > div {
+  transition: transform 0.7s var(--ease-spring);
+}
+
+.img-zoom:hover > div {
+  transform: scale(1.05);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+/* ---- Julius Silvert: pulsing status dot ---- */
+@keyframes js-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.js-pulse {
+  animation: js-pulse 2s ease-in-out infinite;
+}
+
+/* ---- Julius Silvert: ambient orb float ---- */
+@keyframes js-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+.js-float {
+  animation: js-float 20s ease-in-out infinite;
+}
+
+.js-float-delay {
+  animation: js-float 25s ease-in-out infinite reverse;
+}
+
+/* ---- Julius Silvert: subtle dot grid ---- */
+.js-dot-grid {
+  background-image: radial-gradient(circle, rgba(250, 250, 249, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---- Julius Silvert: gradient text ---- */
+.js-gradient-text {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 40%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Julius Silvert: glow accent on hover ---- */
+.js-glow {
+  transition: box-shadow 0.4s var(--ease-spring), border-color 0.4s var(--ease-spring);
+}
+
+.js-glow:hover {
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.15), 0 12px 32px -8px rgba(245, 158, 11, 0.12);
+}
+
+/* ---- Julius Silvert: card shine on hover ---- */
+.js-card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.js-card-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(245, 158, 11, 0.03) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-spring);
+  pointer-events: none;
+}
+
+.js-card-shine:hover::after {
+  opacity: 1;
+}
+
+/* ---- Julius Silvert: status bar glow ---- */
+.js-status-glow-available { box-shadow: inset 3px 0 0 var(--color-js-available); }
+.js-status-glow-limited { box-shadow: inset 3px 0 0 var(--color-js-limited); }
+.js-status-glow-substitute { box-shadow: inset 3px 0 0 var(--color-js-substitute); }
+.js-status-glow-cutoff { box-shadow: inset 3px 0 0 var(--color-js-cutoff); }
+.js-status-glow-oos { box-shadow: inset 3px 0 0 var(--color-js-oos); }

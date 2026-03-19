@@ -1,0 +1,28 @@
+---
+description: Rules for Clerk authentication, user sync, and role-based access control.
+globs: src/middleware.ts,src/app/api/webhooks/clerk/**,src/actions/**
+alwaysApply: false
+---
+
+# Clerk Authentication Rules
+
+## Positive Directives
+
+- Use `clerkMiddleware()` with `createRouteMatcher()` to protect routes
+- Sync Clerk users to the database via the `/api/webhooks/clerk` webhook (handle user.created, user.updated, user.deleted)
+- Always verify webhook signatures using the `svix` library
+- Use `auth()` from `@clerk/nextjs/server` in Server Components and Server Actions to get the current user
+- Differentiate ATTENDEE vs ORGANIZER roles using the `Role` enum in the database
+- Use Clerk's `<SignInButton>`, `<SignedIn>`, `<SignedOut>`, and `<UserButton>` components for auth UI
+
+## Negative Rules
+
+- NEVER check authentication in client components - always delegate to middleware or server-side checks
+- NEVER store Clerk user data as the sole source of truth - always sync to the database User model
+- NEVER bypass the webhook signature verification
+
+## Verification Steps
+
+- Confirm middleware protects `/organizer` and `/attendee` routes
+- Test the Clerk webhook by creating a test user and verifying the database record is created
+- Confirm `auth()` calls correctly reject unauthenticated access in Server Actions

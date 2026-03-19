@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String   @id @default(uuid())
+  clerkId         String   @unique
+  email           String   @unique
+  name            String?
+  phoneNumber     String?
+  role            String   @default("ATTENDEE")
+  stripeAccountId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  events Event[] @relation("OrganizerEvents")
+  orders Order[]
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  location    String
+  imageUrl    String?
+  date        DateTime
+  isPublished Boolean  @default(false)
+  organizerId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organizer   User         @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  ticketTiers TicketTier[]
+  orders      Order[]
+}
+
+model TicketTier {
+  id        String   @id @default(uuid())
+  eventId   String
+  name      String
+  price     Int
+  capacity  Int
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event   Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tickets AttendeeTicket[]
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  userId          String
+  eventId         String
+  totalAmount     Int
+  platformFee     Int
+  phoneNumber     String?
+  stripeSessionId String   @unique
+  status          String   @default("PENDING")
+  createdAt       DateTime @default(now())
+
+  user            User             @relation(fields: [userId], references: [id])
+  event           Event            @relation(fields: [eventId], references: [id])
+  attendeeTickets AttendeeTicket[]
+}
+
+model AttendeeTicket {
+  id           String   @id @default(uuid())
+  orderId      String
+  ticketTierId String
+  qrCodeHash   String   @unique
+  isScanned    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  order      Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  ticketTier TicketTier @relation(fields: [ticketTierId], references: [id])
+}

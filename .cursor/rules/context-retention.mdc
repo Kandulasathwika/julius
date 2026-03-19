@@ -1,0 +1,29 @@
+---
+description: Context retention protocol - ensures AI reads project state before coding and updates documentation after completing tasks.
+globs:
+alwaysApply: true
+---
+
+# Context Retention Protocol
+
+## Before Writing Code
+
+1. Always read `/docs/active-task.md` before starting any coding task
+2. Review the relevant `.mdc` rule files for the area you are working in
+3. Check `/docs/architecture.md` for the current system design
+
+## After Completing a Significant Step
+
+1. Update `/docs/active-task.md` with:
+   - What was completed
+   - Current status
+   - Known issues or blockers
+   - Next steps
+2. If a new, better code pattern was established during the session, update the relevant `.mdc` rule file to reflect the improved pattern
+3. If a new integration or architectural decision was made, update `/docs/architecture.md`
+
+## Self-Improvement Protocol
+
+- When you discover a pattern that works well, add it to the appropriate `.mdc` rule under "Positive Directives"
+- When you encounter an anti-pattern that caused bugs, add it to the appropriate `.mdc` rule under "Negative Rules"
+- Keep rule files concise - remove rules that are no longer relevant

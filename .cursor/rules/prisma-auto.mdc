@@ -1,0 +1,32 @@
+---
+description: Rules for Prisma ORM usage, database queries, and schema migrations.
+globs: prisma/**,src/lib/prisma.ts,src/actions/**
+alwaysApply: false
+---
+
+# Prisma ORM Rules
+
+## Positive Directives
+
+- Use the singleton Prisma client from `@/lib/prisma` - never instantiate `new PrismaClient()` elsewhere
+- Always include `@@index` annotations on foreign key columns for query performance
+- Use `onDelete: Cascade` on relations where child records should be removed with the parent (e.g., TicketTiers when an Event is deleted)
+- Store monetary values as `Int` (cents), not `Float`
+- Use `@db.Text` for long-form content fields (e.g., Event description)
+- Always use transactions (`prisma.$transaction`) when creating related records atomically
+- Run `npx prisma migrate dev` after every schema change
+- Run `npx prisma generate` after pulling schema updates
+
+## Negative Rules
+
+- NEVER use `Float` for monetary values
+- NEVER query the database from client components - always use Server Components or Server Actions
+- NEVER use raw SQL unless Prisma query builder cannot express the query
+- NEVER skip adding indexes on columns used in WHERE or JOIN clauses
+- NEVER delete or rename migration files manually
+
+## Verification Steps
+
+- Run `npx prisma validate` to check schema correctness
+- Run `npx prisma migrate dev --name <descriptive_name>` to verify migrations apply cleanly
+- Confirm all relations have matching foreign key indexes
