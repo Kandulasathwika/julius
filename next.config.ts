@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Stripe webhook route removed; homepage-only deployment (see git history).
 };
 
 export default nextConfig;
