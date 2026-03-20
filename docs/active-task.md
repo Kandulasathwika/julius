@@ -15,8 +15,7 @@
 
 ## Known Issues / Blockers
 
-- Pre-existing TypeScript errors in stripe/route.ts and lib/stripe.ts (API version mismatch, null checks) are not related to this work
-- Environment variables in .env still need real values for other parts of the app (Supabase, Clerk, Stripe, Resend)
+- Environment variables in .env still need real values for other parts of the app (Supabase, Clerk, Resend)
 - The homepage is fully static with mock data - no backend integration needed for the demo
 
 ## Next Steps

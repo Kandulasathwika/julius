@@ -6,7 +6,6 @@
 - Language: TypeScript (strict)
 - Database: Supabase (PostgreSQL) via Prisma ORM
 - Authentication: Clerk (webhook sync to local User model)
-- Payments: Stripe Connect (platform fees + organizer payouts)
 - Email: Resend (transactional ticket delivery)
 - Styling: Tailwind CSS v4 with custom Glassmorphism theme
 
@@ -18,12 +17,12 @@ src/
     (public)/         - Event discovery, event detail pages (unauthenticated)
     (organizer)/      - Organizer dashboard, event creation (ORGANIZER role)
     (attendee)/       - Attendee ticket dashboard (authenticated)
-    api/webhooks/     - Clerk user sync, Stripe payment webhooks
+    api/webhooks/     - Clerk user sync
   components/
     ui/               - GlassCard, GlassButton (Glassmorphism design system)
     events/           - Event-specific components
     tickets/          - Ticket display and QR components
-  lib/                - Prisma client, Stripe client, Resend client, utilities
+  lib/                - Prisma client, Resend client, utilities
   actions/            - Server Actions for events, orders, tickets
 prisma/
   schema.prisma       - Database schema (User, Event, TicketTier, Order, AttendeeTicket)
@@ -37,8 +36,8 @@ docs/                 - Project documentation and active task tracking
 1. Users sign up via Clerk -> webhook syncs to local User model
 2. Organizers create Events with TicketTiers
 3. Attendees browse published Events on the discovery feed
-4. Checkout creates a Stripe Connect session with platform fee
-5. Stripe webhook confirms payment -> Order marked COMPLETED -> QR tickets generated -> Resend delivers email
+4. Demo checkout flow creates completed orders via Server Actions (no payment processor in this deployment)
+5. Orders can trigger QR ticket generation and Resend email when wired up
 
 ## Database Models
 
