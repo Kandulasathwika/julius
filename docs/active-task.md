@@ -1,25 +1,20 @@
 # Active Task
 
-## Current Status: Julius Silvert Homepage Complete
+## Current Status: Julius Silvert distributor-style homepage
 
 ## What Was Completed
 
-- Full homepage redesign for Julius Silvert B2B food distributor
-- 7 new components in src/components/julius/: Header, Hero, QuickActions, InventoryAlerts, CategoryBrowse, ValueProps, Footer
-- Dark theme tokens added to globals.css (js-bg, js-surface, js-accent, status colors)
-- Custom CSS animations: js-pulse (status dots), js-shimmer (ambient glow), js-glow (hover accent)
-- Inventory Dashboard section with 5 distinct status types and mock product data
-- Responsive design: mobile hamburger menu, stacked CTAs, adaptive grids
-- Public route group layout simplified to a passthrough wrapper
-- All new files pass TypeScript strict mode with zero errors
-
-## Known Issues / Blockers
-
-- Environment variables in .env still need real values for other parts of the app (Supabase, Clerk, Resend)
-- The homepage is fully static with mock data - no backend integration needed for the demo
+- Homepage reworked to follow my.juliussilvert.com-style IA: helper bar, navy header with categories, inventory strip, hero carousel, promo tiles, featured product rows, inventory detail section, trust bar, curated partners, footer
+- New components: HelperBar, InventoryAlertStrip, PromoTiles, FeaturedProductRows, BrandPartners, TrustBar
+- Removed: QuickActions, CategoryBrowse, ValueProps (replaced by tiles and product rows)
+- Fonts: Libre Baskerville and Source Sans 3 in root layout for Julius styling; metadata title updated
+- next.config: remotePatterns for images.unsplash.com
+- Theme tokens: js-navy, js-navy-deep, js-canvas, js-paper, js-ink, js-redline
+- Central image map: `src/lib/julius-images.ts` (`JULIUS_IMG`) for Unsplash URLs used across Julius sections
+- Photo and UI pass: header logo mark, hero four slides (including cheese or dairy slide), promo tiles and featured rows wired to `JULIUS_IMG`, inventory section banner plus per-row product thumbnails, footer subtle texture overlay, product card hover polish, BrandPartners hover scale uses valid Tailwind `scale-105`
+- Several Unsplash photo IDs were returning HTTP 404 from `images.unsplash.com` (tomato, wagyu, delivery, multiple partner tiles, Compart, Carved). Those entries in `julius-images.ts` were swapped for verified 200 URLs so Next.js Image and the strip load reliably
 
 ## Next Steps
 
-- Run dev server to visually verify the homepage renders correctly
-- Fine-tune spacing, typography, or animation timing as needed during visual review
-- Consider adding Lucide React icons as a dependency for cleaner icon management (currently using inline SVGs)
+- Replace placeholder copy or imagery with brand-approved assets if required
+- Run dev server for visual QA on mobile category scroll and carousels
